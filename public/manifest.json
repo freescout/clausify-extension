@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Clausify",
+  "version": "0.1.0",
+  "description": "Know what you're signing — analyse automatique des CGV.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["activeTab", "storage", "tabs"],
+  "host_permissions": ["http://localhost:3000/*", "<all_urls>"]
+}
