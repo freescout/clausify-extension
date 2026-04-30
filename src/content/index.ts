@@ -3,20 +3,29 @@ import { ExtensionMessage } from "../shared/types";
 // ── Keywords that indicate a CGV page ────────────────────────────────────────
 
 const CGV_KEYWORDS = [
+  // French
   "conditions générales",
   "conditions d'utilisation",
+  "conditions de vente",
   "mentions légales",
   "politique de confidentialité",
+  // English
   "terms and conditions",
   "terms of service",
-  "privacy policy",
   "terms of use",
+  "privacy policy",
+  "conditions of use",
+  "user agreement",
+  // Generic
+  "intellectual property",
+  "propriété intellectuelle",
+  "limitation of liability",
+  "limitation de responsabilité",
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function extractPageText(): string {
-  // Remove script and style tags before extracting text
   const clone = document.body.cloneNode(true) as HTMLElement;
   clone
     .querySelectorAll("script, style, noscript")
@@ -45,6 +54,20 @@ function detect() {
 
   chrome.runtime.sendMessage(msg);
 }
+
+// ── Listen for messages from background ──────────────────────────────────────
+
+chrome.runtime.onMessage.addListener((message: ExtensionMessage) => {
+  if (message.type === "GET_CGV_TEXT") {
+    const msg: ExtensionMessage = {
+      type: "ANALYZE_REQUEST",
+      text: extractPageText(),
+      siteDomain: window.location.hostname,
+      sourceUrl: window.location.href,
+    };
+    chrome.runtime.sendMessage(msg);
+  }
+});
 
 // Run once DOM is ready
 detect();
