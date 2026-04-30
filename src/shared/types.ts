@@ -32,6 +32,7 @@ export type ExtensionMessage =
   | { type: "ANALYSIS_ERROR"; message: string }
   | { type: "GET_CURRENT_STATE" }
   | { type: "TRIGGER_ANALYZE" }
+  | { type: "GET_CGV_TEXT" }
   | { type: "CURRENT_STATE"; state: PopupState };
 
 // State managed by the background worker, read by popup
