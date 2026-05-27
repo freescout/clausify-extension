@@ -5,7 +5,7 @@ import {
   ExtensionMessage,
   PopupState,
 } from "../shared/types";
-import { CLAUSE_TYPE_LABELS, SEVERITY_ORDER } from "../shared/constatnts";
+import { CLAUSE_TYPE_LABELS, SEVERITY_ORDER } from "../shared/constants";
 
 // ── DOM root ─────────────────────────────────────────────────────────────────
 
@@ -20,13 +20,13 @@ function getScoreTier(score: number): "safe" | "warn" | "danger" {
 }
 
 function getVerdict(score: number): string {
-  if (score >= 60) return "Plutôt fiable";
-  if (score >= 35) return "À lire avec attention";
-  return "Clauses problématiques";
+  if (score >= 60) return "Mostly reliable";
+  if (score >= 35) return "Read carefully";
+  return "Problematic clauses";
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("fr-FR", {
+  return new Date(iso).toLocaleDateString("en-US", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -97,17 +97,17 @@ function renderIdle(): string {
     <div class="content">
       <div class="idle">
         <div class="idle__icon">📋</div>
-        <div class="idle__title">Aucune CGV détectée</div>
+        <div class="idle__title">No Terms detected</div>
         <div class="idle__desc">
-          Naviguez vers une page contenant des Conditions Générales,
-          ou importez un fichier texte pour l'analyser.
+          Navigate to a page with Terms &amp; Conditions,
+          or import a text file to analyze it.
         </div>
       </div>
     </div>
     <div class="footer">
       <div class="btn-group">
         <button class="btn btn--ghost" id="btn-upload">
-          📂 Importer un fichier
+          📂 Import a file
         </button>
       </div>
     </div>
