@@ -83,7 +83,7 @@ function renderClause(clause: ClauseCategory): string {
       <div class="clause-item__dot"></div>
       <div class="clause-item__body">
         <div class="clause-item__type">${label}</div>
-        <div class="clause-item__summary">${clause.summary}</div>
+        <div class="clause-item__summary">${clause.content}</div>
       </div>
     </div>
   `;
@@ -153,20 +153,20 @@ function renderLoading(): string {
 }
 
 function renderResult(result: AnalysisResult): string {
-  const tier = getScoreTier(result.score);
+  const tier = getScoreTier(result.global_score);
   const clauses = sortedClauses(result.clauses);
   const clausesHtml = clauses.map(renderClause).join("");
-  const webUrl = `http://localhost:5173/sites/${result.siteDomain}`;
+  const webUrl = `http://localhost:5173/sites/${result.domain}`;
 
   return `
-    ${renderHeader(result.siteDomain)}
+    ${renderHeader(result.domain)}
     <div class="content">
       <div class="score-section">
-        ${renderScoreRing(result.score)}
+        ${renderScoreRing(result.global_score)}
         <div class="score-info">
           <div class="score-info__label">Score de confiance</div>
-          <div class="score-info__verdict score--${tier}">${getVerdict(result.score)}</div>
-          <div class="score-info__date">Analysé le ${formatDate(result.analyzedAt)}</div>
+          <div class="score-info__verdict score--${tier}">${getVerdict(result.global_score)}</div>
+          <div class="score-info__date">Analysé le ${formatDate(result.analyzed_at)}</div>
         </div>
       </div>
       <div class="clauses">
@@ -221,11 +221,11 @@ function bindEvents(state: PopupState) {
       currentWindow: true,
     });
     const sourceUrl = tab.url ?? "file://upload";
-    const siteDomain = new URL(sourceUrl).hostname || "upload";
+    const domain = new URL(sourceUrl).hostname || "upload";
     const msg: ExtensionMessage = {
       type: "ANALYZE_REQUEST",
       text,
-      siteDomain,
+      domain,
       sourceUrl,
     };
     chrome.runtime.sendMessage(msg);

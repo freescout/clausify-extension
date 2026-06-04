@@ -1,22 +1,18 @@
 // Clause categories returned by the backend
 export interface ClauseCategory {
-  type:
-    | "personal_data"
-    | "third_party_resale"
-    | "abusive_clause"
-    | "retention_duration"
-    | "recourse_rights";
-  label: string;
+  type: "personal_data" | "third_party" | "abusive" | "retention" | "recourse";
+  content: string;
   severity: "low" | "medium" | "high";
-  summary: string;
+  score_impact: number;
 }
 
-// Full analysis result from POST /analyze
+// Full analysis result from POST /api/analyze
 export interface AnalysisResult {
-  siteDomain: string;
-  score: number; // 0–100, lower = riskier
+  domain: string;
+  global_score: number; // 0–100, lower = riskier
+  rating: "green" | "orange" | "red";
   clauses: ClauseCategory[];
-  analyzedAt: string;
+  analyzed_at: string;
 }
 
 // Messages between content script ↔ background ↔ popup
@@ -25,7 +21,7 @@ export type ExtensionMessage =
   | {
       type: "ANALYZE_REQUEST";
       text: string;
-      siteDomain: string;
+      domain: string;
       sourceUrl: string;
     }
   | { type: "ANALYSIS_RESULT"; result: AnalysisResult }

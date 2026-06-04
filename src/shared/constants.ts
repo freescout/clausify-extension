@@ -3,11 +3,11 @@ export const API_BASE_URL = "http://localhost:3000";
 export const API_ANALYZE_URL = `${API_BASE_URL}/api/analyze`;
 
 export const CLAUSE_TYPE_LABELS: Record<string, string> = {
-  personal_data: "Données personnelles",
-  third_party_resale: "Revente à des tiers",
-  abusive_clause: "Clause abusive",
-  retention_duration: "Durée de conservation",
-  recourse_rights: "Droits de recours",
+  personal_data: "Personal Data",
+  third_party: "Third Party Sharing",
+  abusive: "Abusive Clause",
+  retention: "Data Retention",
+  recourse: "Recourse Rights",
 };
 
 export const SEVERITY_ORDER: Record<string, number> = {

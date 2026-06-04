@@ -4,37 +4,35 @@ import { ExtensionMessage, PopupState, AnalysisResult } from "../shared/types";
 // ── Mock data for testing ─────────────────────────────────────────────────────
 
 const MOCK_RESULT: AnalysisResult = {
-  siteDomain: "amazon.fr",
-  score: 42,
-  analyzedAt: new Date().toISOString(),
+  domain: "amazon.fr",
+  global_score: 42,
+  rating: "red",
+  analyzed_at: new Date().toISOString(),
   clauses: [
     {
       type: "personal_data",
-      label: "Données personnelles",
+      content:
+        "Amazon collects your browsing data, purchases and interactions to personalise advertisements.",
       severity: "high",
-      summary:
-        "Amazon collecte vos données de navigation, achats et interactions pour personnaliser les publicités.",
+      score_impact: -20,
     },
     {
-      type: "third_party_resale",
-      label: "Revente à des tiers",
+      type: "third_party",
+      content: "Your data may be shared with third-party commercial partners.",
       severity: "high",
-      summary:
-        "Vos données peuvent être partagées avec des partenaires commerciaux tiers.",
+      score_impact: -20,
     },
     {
-      type: "retention_duration",
-      label: "Durée de conservation",
+      type: "retention",
+      content: "Data is retained for as long as your account is active.",
       severity: "medium",
-      summary:
-        "Les données sont conservées aussi longtemps que votre compte est actif.",
+      score_impact: -10,
     },
     {
-      type: "recourse_rights",
-      label: "Droits de recours",
+      type: "recourse",
+      content: "You can exercise your rights by contacting customer service.",
       severity: "low",
-      summary:
-        "Vous pouvez exercer vos droits RGPD en contactant le service client.",
+      score_impact: -3,
     },
   ],
 };
@@ -110,7 +108,7 @@ chrome.runtime.onMessage.addListener(
         break;
 
       case "ANALYZE_REQUEST":
-        analyze(message.text, message.siteDomain, message.sourceUrl);
+        analyze(message.text, message.domain, message.sourceUrl);
         break;
     }
 

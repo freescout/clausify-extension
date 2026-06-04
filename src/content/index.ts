@@ -62,7 +62,7 @@ chrome.runtime.onMessage.addListener((message: ExtensionMessage) => {
     const msg: ExtensionMessage = {
       type: "ANALYZE_REQUEST",
       text: extractPageText(),
-      siteDomain: window.location.hostname,
+      domain: window.location.hostname,
       sourceUrl: window.location.href,
     };
     chrome.runtime.sendMessage(msg);
