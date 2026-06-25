@@ -2,6 +2,7 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
+  devtool: "cheap-source-map",
   entry: {
     popup: "./src/popup/index.ts",
     background: "./src/background/index.ts",
